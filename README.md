@@ -1,30 +1,15 @@
-# RPT
-Resource Planning Tool
+# EFF packaging
+Purpose:
+Provide a tool to process the amended EFF package from a well packaged EFF with the recalculated MD5 Base64 hash for eff.lst file
 
-Slot based resource planning tool.
+Use case:
+To generate a training EFF package from a normal flight
 
-The Resource slot has fields with headers and the purpose as below. The header started with a "*" are required when creating a resource slot: 
-- *ID : Auto generated unique ID as an identifier. Not editable.
-- *Type : Any type to identify the purpose of the resource request.
-- Category : Categorise the resource
-- Tag : Any identification which can be use for quering the required resource
-- *Start : start date 
-- *End : End date
-- Owner : a person who aquire the resource
-- *Preserve period : the time period in days which the resource will be reserved for the owner before the start date.
-- Status : Three state with Live, Pending, Assigned, Used or Perished. Default as Live apon creation.
-
-The Resource Manager can do following actions to the slot
-- Query : Use nature language to query the existing resource from the database
-- Create : Crete a resource slot with nature language 
-- Modify : Use nature language to modify any of the fields for a resource slot except the *ID.
-- Remove : Remove a slot from a database. Need to get the reconfirmation from the Resource Manager.
-
-The Resource Requester can do following actions to the slot
-- Query : Use nature language to query the existing resource from the database
-- Request : Change to change the resource owner. 
-
-![image](https://github.com/wj1313677/RPT/assets/1673691/9719afce-2b5b-43f1-8ffb-2544242ac705)
-
-
-
+Design logic:
+1. The .eff file is a zipped file containing a .lst and .dat files, .dat file is the zipped filed containing all the package files.
+2. All the files containing in the packages except the .lst file need to have a MD5 Base64 hash code listed in the .lst file.
+3. The tool will unzip the .eff and then unzip the .dat file to a subfolder name dat.
+4. recalculate the MD5 BASE64 hash code for all the files in the .dat folder and amend the .lst files for those files's hash code.
+5. zip the files in the dat folder and rename the extension to .dat
+6. recalculate the .dat file MD5 Base64 hash and amend the eff.lst file accordinatly.
+7. zip the eff.lst and .dat file to a .eff file.
