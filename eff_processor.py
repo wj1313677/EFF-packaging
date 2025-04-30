@@ -3,6 +3,7 @@ import hashlib
 import base64
 import zipfile
 import shutil
+import argparse
 
 def calculate_md5_base64(filepath):
     """Calculate the MD5 hash of a file and return it in Base64 format."""
@@ -84,7 +85,15 @@ def process_eff_package(eff_file_path, output_folder):
     
     print(f"New EFF package created at: {new_eff_file_path}")
 
-# Usage Example
-eff_file = "path/to/your/input.eff"
-output_dir = "path/to/output/folder"
-process_eff_package(eff_file, output_dir)
+def main():
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="Process and amend an EFF package.")
+    parser.add_argument("input_file", help="Path to the input .eff file.")
+    parser.add_argument("output_folder", help="Folder to save the processed files.")
+    args = parser.parse_args()
+    
+    # Call the processing function
+    process_eff_package(args.input_file, args.output_folder)
+
+if __name__ == "__main__":
+    main()
